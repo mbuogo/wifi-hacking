@@ -28,7 +28,6 @@ else
 			macchanger $1 --mac $mac_target
 			ifconfig $1 up
 			iwconfig $1 essid $2
-			
 			ping -c1 -w1 8.8.8.8 >/dev/null
      			if [ $? -eq 0 ] 
 			then
@@ -38,7 +37,5 @@ else
 				let cont=cont+1
      			fi
 		fi
-		
 	done;
-
 fi
