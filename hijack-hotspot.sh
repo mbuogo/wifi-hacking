@@ -16,7 +16,8 @@ else
 	iwconfig $1 essid $2
 	
 	while [ $cont -lt 254 ]; do
-		ping $3$cont -c1;
+		ip_target=$3$cont;
+		ping $ip_target -c1;
 		let cont=cont+1;
 		
 	done;
