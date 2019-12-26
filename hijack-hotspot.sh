@@ -20,25 +20,14 @@ else
 		ping $ip_target -c1;
 		mac_target=$(arp -n | grep $ip_target | grep -v incomplete | awk '{print $3}');
 
-		if [ "$mac_target" == " " ]
+		if [ -z $mac_target]
 		then
 			let cont=cont+1
 		else
-			echo $ip_target " - " $mac_target >> teste.txt
+			echo $ip_target " - " $mac_target >> bola.txt
 			let cont=cont+1
 		fi
 		
 	done;
 
 fi
-
-
-
-
-
-
-CONTADOR=0
-while [  $CONTADOR -lt 5 ]; do
-      echo "$CONTADOR";
-      let CONTADOR=CONTADOR+1; 
-done
