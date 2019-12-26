@@ -18,7 +18,14 @@ else
 	while [ $cont -lt 254 ]; do
 		ip_target=$3$cont;
 		ping $ip_target -c1;
-		let cont=cont+1;
+		mac_target=$(arp -n | grep $ip_target | awk '{print $3}'
+		if [ "mac_target" == "(incomplete)" ]
+		then
+			let cont=cont+1;
+		else
+			echo $ip_target " - " $mac_target >> teste.txt
+			let cont=cont+1;
+		fi
 		
 	done;
 
