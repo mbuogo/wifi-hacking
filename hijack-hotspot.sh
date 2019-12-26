@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cont=0
+cont=1
 
 if [ "$1" == "" ] #testa o argumento
 then
@@ -16,7 +16,9 @@ else
 	iwconfig $1 essid $2
 	
 	while [ $cont -lt 254 ]; do
-		ping $3$cont -c1
+		ping $3$cont -c1;
+		let cont=cont+1;
+		
 	done;
 
 fi
