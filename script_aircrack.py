@@ -17,12 +17,19 @@ if len(sys.argv) < 2:
     sys.exit(0)
 dic_wf = {}
 dic_wfclient = {}
-intwf = sys.argv[1]
+dic_apchannel = {}
+intwf1 = sys.argv[1]
+intwf2 = sys.argv[2]
 diretorio = 'temp/'
 white_list_aps = ['74:3C:18:94:10:B9', '94:2C:B3:80:D4:EF', 'B8:19:04:EB:9E:69', '94:46:96:97:03:FD', '74:3C:18:6D:3E:A9', '74:3C:18:94:11:69', '18:0D:2C:34:BF:DF']
 
 
-def airmonng(interface):
+def deauth(apbssid,apchannel):
+
+    subprocess.check_output("sudo iwconfig wlan1mon channel "+apchannel, shell=True)
+    subprocess.check_output("sudo aireplay-ng -0 999999 -a "+apbssid+" wlan1mon >> /dev/null &", shell=True)
+
+def airmonng(interface1,interface2):
     try:
         subprocess.check_output('sudo airmon-ng start '+interface, shell=True)
     except:
@@ -30,7 +37,7 @@ def airmonng(interface):
 
 def airodumpng ():
     os.system('rm -rf temp/*')
-    subprocess.check_output('sudo airodump-ng wlan0mon -w temp/wfxml --write-interval 10 --output-format netxml >> /dev/null &', shell=True)
+    subprocess.check_output("sudo airodump-ng wlan0mon -w temp/wfxml --write-interval 10 --output-format netxml >> /dev/null &", shell=True)
 
 def rogue_ap():
 
@@ -114,6 +121,7 @@ def main():
         print(" 4 - Realizar o Dump\n")
         print(" 5 - Parar o Dump\n")
         print(" 6 - Identificar Rogue AP\n")
+        print(" 7 - Ataque de DeAuth\n")
         print(" 0 - Sair\n")
         op = input(" > Digite um número: ")
 
@@ -124,13 +132,17 @@ def main():
         if(op == '2'):
             parse_xml_wf_client()
         if(op == '3'):
-            airmonng(intwf)
+            airmonng(intwf1,intwf2)
         if(op == '4'):
             airodumpng()
         if(op == '5'):
             os.system("killall airodump-ng")
         if(op == '6'):
-            rogue_ap()   
+            rogue_ap()
+        if(op == '7'):
+            apbssid = input(" > Digite o BSSID \n")
+            apchannel = input(" > Digite o canal \n")
+            deauth(apbssid,apchannel)    
         if(op == '0'):
             os.system('clear')
 
