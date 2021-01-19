@@ -14,12 +14,11 @@ from time import strftime
 
 dic_wf = {}
 dic_wfclient = {}
-dic_apchannel = {}
-arquivo = '/tmp/wpa/dump-01.kismet.netxml'
+arquivo = '/dados/businesscorp/dump-01.kismet.netxml'
 
 def parse_xml_wf():
-    file = open('/tmp/wpa/wifi.txt', 'w')
-    filecsv = open('/tmp/wpa/wifi.csv', 'w')
+    filetxt = open('/dados/businesscorp/wifi.txt', 'w')
+    filecsv = open('/dados/businesscorp/wifi.csv', 'w')
     tree = ET.parse(arquivo)
     root = tree.getroot()
     for i in root.iter('detection-run'):
@@ -37,17 +36,21 @@ def parse_xml_wf():
                     dic_wf[h.tag] = h.text
                 if(h.tag == 'channel'):
                     dic_wf[h.tag] = h.text
+                if('essid'not in dic_wf):
+                    dic_wf['essid'] = 'None'
+                if('encryption' not in dic_wf):
+                    dic_wf['essid'] = 'None'
             print(dic_wf)
             print("ESSID - "+str(dic_wf['essid'])+" | BSSID - "+str(dic_wf['BSSID'])+" | CHANNEL - "+str(dic_wf['channel'])+" | ENC - "+str(dic_wf['encryption'])+"\n")
-            file.write("ESSID - "+str(dic_wf['essid'])+" | BSSID - "+str(dic_wf['BSSID'])+" | CHANNEL - "+str(dic_wf['channel'])+" | ENC - "+str(dic_wf['encryption'])+"\n")
+            filetxt.write("ESSID - "+str(dic_wf['essid'])+" | BSSID - "+str(dic_wf['BSSID'])+" | CHANNEL - "+str(dic_wf['channel'])+" | ENC - "+str(dic_wf['encryption'])+"\n")
             filecsv.write(str(dic_wf['essid'])+","+str(dic_wf['BSSID'])+","+str(dic_wf['channel'])+","+str(dic_wf['encryption'])+"\n")
-    file.close()
+    filetxt.close()
     filecsv.close()
            
 def parse_xml_wf_client():
 
-    file = open('/tmp/wpa/wifi_clients.txt', 'w')
-    filecsv = open('/tmp/wpa/wifi_clients.csv', 'w')
+    filetxt = open('/dados/businesscorp/wifi_clients.txt', 'w')
+    filecsv = open('/dados/businesscorp/wifi_clients.csv', 'w')
     tree = ET.parse(arquivo)
     root = tree.getroot()
     for i in root.iter('detection-run'):
@@ -71,9 +74,9 @@ def parse_xml_wf_client():
                     if(dic_wfclient['essid'] != None):
                         print(dic_wfclient)
                         print("ESSID - "+str(dic_wfclient['essid'])+" | BSSID - "+str(dic_wfclient['BSSID'])+" | CLIENTE MAC - "+str(dic_wfclient['client-mac'])+" | Cliente EQP - "+str(dic_wfclient['client-manuf'])+" | Status - "+str(dic_wfclient['type'])+"\n")
-                        file.write("ESSID - "+str(dic_wfclient['essid'])+" | BSSID - "+str(dic_wfclient['BSSID'])+" | Cliente MAC - "+str(dic_wfclient['client-mac'])+" | Cliente EQP - "+str(dic_wfclient['client-manuf'])+" | Status - "+str(dic_wfclient['type'])+"\n")
+                        filetxt.write("ESSID - "+str(dic_wfclient['essid'])+" | BSSID - "+str(dic_wfclient['BSSID'])+" | Cliente MAC - "+str(dic_wfclient['client-mac'])+" | Cliente EQP - "+str(dic_wfclient['client-manuf'])+" | Status - "+str(dic_wfclient['type'])+"\n")
                         filecsv.write(str(dic_wfclient['essid'])+","+str(dic_wfclient['BSSID'])+","+str(dic_wfclient['client-mac'])+","+str(dic_wfclient['client-manuf'])+","+str(dic_wfclient['type'])+"\n")
-    file.close()
+    filetxt.close()
     filecsv.close()
 
 def main():
