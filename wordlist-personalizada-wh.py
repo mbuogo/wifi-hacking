@@ -12,7 +12,7 @@ data = datetime.datetime.now()
 
 
 def function_2 (word):
-	for l in range(1001):
+	for l in range(10000):
 		wordlist.write(word+str(l)+'\n')
 		wordlist.write(word+'@'+str(l)+'\n')
 
